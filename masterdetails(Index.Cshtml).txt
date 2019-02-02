@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MasterDetailsDemo.Models.Customer>
+@model IEnumerable<MasterDetailsDemo.Models.Customer>
 <br /><br />
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -55,21 +55,21 @@
                     </tbody>
                 </table>
             </div>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <div class="panel-body">
-                                                    <h3 style="color:red;">Empty!</h3>
-                                                </div>
+        }
+    }
+    else
+    {
+        <div class="panel-body">
+            <h3 style="color:red;">Empty!</h3>
+        </div>
 
-                                            }
+    }
 </div>
 
- @*Desing Bootdtrap Modal With Order Form*@
+@*Desing Bootdtrap Modal With Order Form*@
 
 <div class="modal fade" id="newOrderModal">
-    <div class="modal-dialog modal-lg" style= "width: 900px !important;">
+    <div class="modal-dialog modal-lg" style=" width: 900px !important;">
         <div class="modal-content">
             <div class="modal-header">
                 <a href="#" class="close" data-dismiss="modal">&times;</a>

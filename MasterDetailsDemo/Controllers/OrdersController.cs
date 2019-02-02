@@ -10,48 +10,42 @@ namespace MasterDetailsDemo.Controllers
     public class OrdersController : Controller
     {
         // GET: Orders
-        OnlineShopEntities _db = new OnlineShopEntities();
+        OnlineShopEntities db = new OnlineShopEntities();
 
         public ActionResult Index()
         {
-            var orderAndCustomerList = _db.Customers.ToList();
+            List<Customer> orderAndCustomerList = db.Customers.ToList();
             return View(orderAndCustomerList);
         }
+
         public ActionResult SaveOrder(string name, String address, Order[] order)
         {
-            var result = "Error! Order Is Not Complete!";
-            if (name == null || address == null || order == null)
-
-                return Json(result, JsonRequestBehavior.AllowGet);
-            if(name!=null && address!=null && order!=null)
+            string result = "Error! Order Is Not Complete!";
+            if (name != "" && address != "" && order != null)
             {
                 var customerId = Guid.NewGuid();
-                var model = new Customer
-                {
-                    CustomerId = customerId,
-                    Name = name,
-                    Address = address,
-                    OrderDate = DateTime.Now
-                };
-                _db.Customers.Add(model);
+                Customer model = new Customer();
+                model.CustomerId = customerId;
+                model.Name = name;
+                model.Address = address;
+                model.OrderDate = DateTime.Now;
+                db.Customers.Add(model);
 
                 foreach (var item in order)
                 {
                     var orderId = Guid.NewGuid();
-                    var o = new Order
-                    {
-                        OrderId = orderId,
-                        ProductName = item.ProductName,
-                        Quantity = item.Quantity,
-                        Price = item.Price,
-                        Amount = item.Amount,
-                        CustomerId = customerId
-                    };
-                    _db.Orders.Add(o);
+                    Order O = new Order();
+                    O.OrderId = orderId;
+                    O.ProductName = item.ProductName;
+                    O.Quantity = item.Quantity;
+                    O.Price = item.Price;
+                    O.Amount = item.Amount;
+                    O.CustomerId = customerId;
+                    db.Orders.Add(O);
                 }
-                _db.SaveChanges();
+
+                db.SaveChanges();
                 result = "Success! Order Is Complete!";
-               
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
