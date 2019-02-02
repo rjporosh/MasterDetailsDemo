@@ -20,30 +20,40 @@ namespace MasterDetailsDemo.Controllers
         public ActionResult SaveOrder(string name, String address, Order[] order)
         {
             var result = "Error! Order Is Not Complete!";
-            if (name == null || address == null || order == null) return Json(result, JsonRequestBehavior.AllowGet);
-            var customerId = Guid.NewGuid();
-            var model = new Customer
-            {
-                CustomerId = customerId, Name = name, Address = address, OrderDate = DateTime.Now
-            };
-            _db.Customers.Add(model);
+            if (name == null || address == null || order == null)
 
-            foreach (var item in order)
+                return Json(result, JsonRequestBehavior.AllowGet);
+            if(name!=null && address!=null && order!=null)
             {
-                var orderId = Guid.NewGuid();
-                var o = new Order
+                var customerId = Guid.NewGuid();
+                var model = new Customer
                 {
-                    OrderId = orderId,
-                    ProductName = item.ProductName,
-                    Quantity = item.Quantity,
-                    Price = item.Price,
-                    Amount = item.Amount,
-                    CustomerId = customerId
+                    CustomerId = customerId,
+                    Name = name,
+                    Address = address,
+                    OrderDate = DateTime.Now
                 };
-                _db.Orders.Add(o);
+                _db.Customers.Add(model);
+
+                foreach (var item in order)
+                {
+                    var orderId = Guid.NewGuid();
+                    var o = new Order
+                    {
+                        OrderId = orderId,
+                        ProductName = item.ProductName,
+                        Quantity = item.Quantity,
+                        Price = item.Price,
+                        Amount = item.Amount,
+                        CustomerId = customerId
+                    };
+                    _db.Orders.Add(o);
+                }
+                _db.SaveChanges();
+                result = "Success! Order Is Complete!";
+               
             }
-            _db.SaveChanges();
-            result = "Success! Order Is Complete!";
+
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
